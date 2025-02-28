@@ -1,0 +1,259 @@
+\usepackage{xeCJK}
+\setCJKmainfont{Microsoft JhengHei}
+
+% content alignment
+\usepackage[document]{ragged2e}
+\usepackage{adjustbox}  % make table fit in \textwidth
+\usepackage{tabularx}   % for making table whose column width is stretch
+\usepackage{booktabs}   % prettify table
+\usepackage{makecell}
+
+\usepackage{enumitem}
+\setlist{nosep}
+% custom environment of enumerate/itemize
+\newenvironment{myEnumerate}[1][]{\begin{enumerate}[topsep=-\parskip, #1]}
+	{\end{enumerate}\leavevmode\ignorespacesafterend}
+\newenvironment{myItemize}[1][]{\begin{itemize}[topsep=-\parskip, #1]}
+	{\end{itemize}\leavevmode\ignorespacesafterend}
+\newenvironment{steps}[1][]{\begin{enumerate}[topsep=\dimexpr-\parskip+5pt\relax, label={Step \arabic*：}, left=1.25em, itemsep=5pt, #1]}
+	{\end{enumerate}\leavevmode\ignorespacesafterend}
+	
+% avoid top & bottom padding in "center" environment
+\newenvironment{tightcenter}{%
+  \setlength\topsep{0pt}%
+  \setlength\parskip{0pt}%
+  \par\centering}{\par\noindent\ignorespacesafterend}
+
+% Create an empty line
+\newcommand{\blankline}{\vskip \baselineskip}
+\newcommand{\separator}{\par\noindent\rule{\textwidth}{0.4pt}}  % horizontal separator line
+
+% layout setttings
+% adjust \paragraph to the style I like
+\renewcommand{\paragraph}[1]{\vskip \baselineskip \textbf{\S\ #1} \vskip 0.2\baselineskip}
+\renewcommand{\subparagraph}[1]{\textbf{#1} \vskip -0.7\baselineskip}
+% indent of paragraph
+\setlength{\parskip}{\baselineskip}
+\setlength{\parindent}{0pt}
+\newcommand{\forceindent}{\leavevmode\parindent=3em\indent\parindent=0pt\relax}     % force indent locally while setting \parindent to 0 globally
+
+\usepackage{geometry}
+\newgeometry{top=2cm, bottom=2cm, left=2cm, right=2cm}
+
+% Settings header and footer layout
+\usepackage{fancyhdr}
+\fancypagestyle{tocStyle}{      % page style for ToC
+	\fancyhead{}           % clear header field by giving it no params
+	\renewcommand{\headrulewidth}{0pt}     % clear the rule of header
+	\fancyfoot[C]{\large\thepage}
+	\pagenumbering{roman}     % set page number style to roman
+	\setcounter{page}{1}
+}
+
+\fancypagestyle{contentStyle}{  % page style for content
+	\setlength\headheight{15pt}
+	\fancyhead{\fancycenter{\nouppercase\leftmark}{}{\nouppercase\rightmark}}
+	\renewcommand{\headrulewidth}{0.4pt}   % switch back to default (0.4pt)
+	\fancyfoot[C]{\large\thepage}
+	\pagenumbering{arabic}     % turn on page number
+	\setcounter{page}{1}
+}
+
+% images, captions, drawing
+\usepackage{graphicx}   % for import images
+\graphicspath{{image/}} % set image folder to "image/"
+
+% font
+\usepackage[light]{Chivo}
+\renewcommand{\familydefault}{\sfdefault}       % change font family
+
+% for text color
+\usepackage[dvipsnames]{xcolor}
+\usepackage{color}
+\usepackage{soul}  % for text highlighting
+\usepackage{cjkhl}
+
+% In order to meet four requirements of URLs:
+% (1) clickable link
+% (2) line break
+% (3) text color is blue
+% (4) no need to escape special characters: %, _, #, and so on
+% I've tried several ways and I note their results in the back (double quoted name are packages):
+% 1. use \url in "url": satisfy (1) and (3)
+% 2. use \url in "xurl" (loaded after "hyperref" package): satisfy (1) and (2). But if you do \textcolor{blue}{\url{some_link}}, you must to escape special characters, because of \textcolor
+% 3. use \hyperref in "hyperref": satisfy (1) and (3)
+% 4. load "xurl" before "hyperref", and use /url in "hyperref" (checked by changing the text color with \hypersetup of "hyperref"): satisfy (1), (2), (3) and (4).
+% Why it works?
+% Someone mentioned that "hyperref" will load "url" somewhere internally, and I know "xurl" will load "url" internally (according to its doc), so I think MAYBE if "xurl" loaded before "hyperref" and it can still change the behavior of \url in "hyperref". I really dont know what it exactly happened, but one thing we can know is, if there's two packages share the same name of command, we always use the command from the latest loaded package. In this case, that's "hyperref".
+% P.S. Inspiration from the answer of this post: https://stackoverflow.com/questions/2625714/linebreak-in-url-with-bibtex-and-hyperref-package
+\usepackage{xurl}           % enabling line break of \url. It should be loaded before "hyperref" package.
+\usepackage{hyperref}       % creating hyperlink on table of content (ToC), and in-file reference
+\hypersetup{
+	colorlinks = true,
+	linkcolor = {blue},
+	urlcolor = {blue}
+}
+
+% customize reference
+\newcommand*{\fullref}[1]{\hyperref[{#1}]{\ref*{#1} \nameref*{#1}}}
+
+% Symbols in math or International System of Units (SI)
+\usepackage{siunitx}            % for SI
+\usepackage{newunicodechar}
+\usepackage{mathtools}
+
+% >>>>>>>>>>>>>>>>> listings environment ----------------------
+\usepackage{listings}
+\usepackage{textcomp}
+\usepackage{upquote}
+\usepackage{upgreek}        % for \upmu
+%\usepackage{newtxtt}        % font package of txtt (in order to show minus sign in custom listings environment)
+% Default fixed font does not support bold face
+\usepackage{fontspec,xltxtra,xunicode}      % replace package "newtxtt"
+\defaultfontfeatures{Mapping=tex-text}
+
+\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
+\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{12}  % for normal
+\DeclareFixedFont{\ttbblock}{T1}{txtt}{bx}{n}{10} % for bold in code block
+\DeclareFixedFont{\ttmblock}{T1}{txtt}{m}{n}{10}  % for normal in code block
+
+% settings for 'command' environment
+\newcommand\commandstyle{\lstset{
+	%language=Bash,
+	basicstyle=\ttm,
+	tabsize=4,                        % tab width
+	numberstyle=\ttm,
+	frame=tb,                         % Any extra options here
+	showstringspaces=false,
+	breaklines,                       % Enable line wrapping
+	gobble=4,                         % trim leading spaces
+	aboveskip = \baselineskip,        % to offset(neutralize) the custom \parskip (which is set to a \baselineskip)
+	literate={-}{-}1 {*}{\normalfont{*}}1,                 % keep hyphen from combining into one
+}}
+
+\lstnewenvironment{command}[1][]{
+	\commandstyle
+	\lstset{#1}
+}{}
+
+% Custom colors
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+
+% Python style for highlighting
+\newcommand\pythonblockstyle{\lstset{
+		language=Python,
+		basicstyle=\ttmblock,
+		commentstyle=\ttmblock\color{Gray},
+		tabsize=4,                        % tab width
+		numberstyle=\ttm,
+		morekeywords={self},              % Add keywords here
+		keywordstyle=\ttbblock\color{deepblue},
+		emph={MyClass,__init__},          % Custom highlighting
+		emphstyle=\ttbblock\color{deepred},    % Custom highlighting style
+		stringstyle=\color{deepgreen},
+		frame=tb,                         % Any extra options here
+		showstringspaces=false,
+		breaklines,                       % Enable line wrapping
+		gobble=4,                         % trim leading spaces
+		aboveskip = \baselineskip,        % to offset(neutralize) the custom \parskip (which is set to a \baselineskip)
+		literate={-}{-}1 {±}{$\pm$}1 {*}{\normalfont{*}}1,     % keep hyphen from combining into one
+		upquote=true,                     % make single quote "stragiht", need to work with 'textcomp' package
+}}
+
+\newcommand\pythoninlinestyle{\lstset{
+		language=Python,
+		basicstyle=\ttm,
+		commentstyle=\ttm\color{Gray},
+		tabsize=4,                        % tab width
+		numberstyle=\ttm,
+		morekeywords={self},              % Add keywords here
+		keywordstyle=\ttb\color{deepblue},
+		emph={MyClass,__init__},          % Custom highlighting
+		emphstyle=\ttb\color{deepred},    % Custom highlighting style
+		stringstyle=\color{deepgreen},
+		frame=tb,                         % Any extra options here
+		showstringspaces=false,
+		breaklines,                       % Enable line wrapping
+		gobble=4,                         % trim leading spaces
+		aboveskip = \baselineskip,        % to offset(neutralize) the custom \parskip (which is set to a \baselineskip)
+		literate={-}{-}1 {±}{$\pm$}1 {*}{\normalfont{*}}1,     % keep hyphen from combining into one
+		upquote=true,                     % make single quote "stragiht", need to work with 'textcomp' package
+}}
+
+
+% Python environment
+\lstnewenvironment{python}[1][]
+{
+	\pythonblockstyle
+	\lstset{#1}
+}
+{}
+
+% Python for external files
+\newcommand\pythonexternal[2][]{{
+		\pythonblockstyle
+		\lstinputlisting[
+		#1,
+		inputpath = ./code,      % default input path
+		title={\parbox{\textwidth}{\hfill\ttm{#2}}}, % make title right-aligned with fixed-width typeface
+		numbers=left, numbersep=2em,  % line number settings
+		]{#2}}}
+
+% Python for inline
+\newcommand\pythoninline[1]{{\pythoninlinestyle\lstinline!#1!}}
+
+% --------------- listings environment <<<<<<<<<<<<<<<<<<
+\definecolor{codeGray}{RGB}{227,230,232}
+\newcommand{\codeblock}[1]{\texttt{\cjkhl{codeGray}{#1}}}
+
+\newcommand{\entry}[2]{
+	\begin{tabularx}{\linewidth}[t]{@{}lX@{}}
+		\codeblock{#1} \qquad & \parbox[t]{\linewidth}{\raggedright #2}
+	\end{tabularx}
+}
+
+\newcommand{\entryPair}[3]{
+	\begin{tabularx}{\linewidth}{@{}lX@{}}
+		\codeblock{#1} \: or \:  \codeblock{#2} \qquad & \parbox[t]{\linewidth}{\raggedright #3}
+	\end{tabularx}
+}
+
+% line break for a long word
+\newcommand{\breakandspace}{%
+  \nobreak
+  \hspace{0pt plus 1fil}% add a filling space
+  \allowbreak
+  \hspace{0pt plus -1fil}% remove the filling space
+}
+
+\ExplSyntaxOn
+\NewDocumentCommand{\longcell}{m}
+ {
+  \text_map_inline:nn { #1 } { ##1\allowbreak }
+  
+ }
+\ExplSyntaxOff
+
+% ------- End -------
+
+% Enabling long words to split/line break at arbitrary character.
+% Note that seqsplit will eat all space in your string!
+\usepackage{seqsplit}    
+% I use the code just right above here, to replace \seqsplit
+% This solution is adapted from egreg's answer from 
+% https://tex.stackexchange.com/questions/207091/wrap-text-at-any-point-if-normal-hyphenation-not-possible
+%\newcommand{\code}[1]{\texttt{\longcell{#1}}}
+\newcommand{\code}[1]{\textcolor{purple}{\texttt{\longcell{#1}}}}
+
+\newcommand{\myDescription}[2]{
+	% using \myDescription in "itemize" environment while put another
+	% "itemize" in arg2 will make the list icon (bullet) disappear.
+	% The reason is unknown, but ChatGPT give a solution without any
+	% side effect which is add \noindent in the beginning of command
+	\noindent
+	\begin{tabularx}{\linewidth}[t]{@{}l@{}X@{}}
+		{#1：} & \parbox[t]{\linewidth}{\raggedright{}#2}
+	\end{tabularx}
+}
