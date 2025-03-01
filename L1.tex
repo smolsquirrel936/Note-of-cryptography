@@ -13,7 +13,7 @@ Merkle 在大學部修了一個課，然後要交一個 project。他在交這�
 \subsection{Conventions}
 
 \begin{itemize}[itemsep=10pt]
-	\item 離散且有限的時間 (Discrete and finite world) \\
+	\item 離散且有限的時間 (discrete and finite world) \\
 		\(\Rightarrow\) 因為我們正在討論 computer science
 		
 	\item Data v.s. Informatition
@@ -43,12 +43,130 @@ Merkle 在大學部修了一個課，然後要交一個 project。他在交這�
 \end{itemize}
 
 
+\subsection{Overview}
 
 
+\paragraph{什麼是密碼學？}
+
+如果我們不在意安全，那麼我們不需要密碼學。 \\
+(If do not care security, we won't need crypto.)
+
+安全 (security) 可以由以下兩點來定義：
+\begin{myItemize}
+	\item 目的 (purpose)：我們需要達到什麼效果
+	\item 需求 (requirements)：為了達到目的，我們需要達成哪些目標
+\end{myItemize}
+
+一些密碼學相關的內容：
+\begin{itemize}
+	\item 加密 (entryption)
+	\item 數位簽章 (signature)
+	\item 零知識 (zero knowledge)
+	\item 安全計算 (secure computation)
+\end{itemize}
 
 
+\subsection{Notations}
+
+\subparagraph{Private key encryption (or “secret key encryption”)}
+就是對稱式加密，加密和解密皆使用同一個 key
+
+\subparagraph{Public key encryption}
+公鑰系統。一個公鑰會對應一個私鑰。公鑰會公開，私鑰不公開。 \\
+若 Alice 要傳訊息給 Bob，則 Alice 會使用自己的公鑰加密，並且讓 Bob 使用「與 Alice 的公鑰相對應的」私鑰進行解密。
+
+\subparagraph{Zero knowledge}
+A 想向 B 證明某件事情，但不想透漏任何其他的額外資訊。 \\
+Ex1：我想向你證明我有 100 萬，但不想真的放 100 萬現金在你眼前（以免被你搶走），所以我可以要求銀行開立證明來達到這個目的。
+Ex2:我想向你證明我真的知道「威利在哪裡」。我可以用一張比原圖更大張的紙，並且在上面挖一個威利形狀的洞，以此來達到目的。
 
 
+\subsection{Story of solving impossibility}
+
+（這邊的例子經過一點點調整） \\
+你的上司要求你解決一個問題 \(Q\)，並且告知你如果無法解決問題就會被炒魷魚，並被另一個比你聰明的傢伙取代。你雖然不知道怎麼解決 \(Q\)，但你知道另一個\textbf{相關的}知名問題 \(\widetilde{Q}\) (Q tilde) 在現今根本就沒人會解。最後你告訴你的上司，由於「現在根本沒人知道如何解 \(\widetilde{Q}\)」，所以「也沒人會解 \(Q\)」，因此這問題解不了，而另一個自稱聰明的傢伙其實是騙子。
 
 
+重點就是 \\
+If there's a good algorithm for \(Q\), then there exists a good one for another well-known problem \(\widetilde{Q}\). \\
+這句話的逆否命題就是 \\
+If there's no algorithm for \(\widetilde{Q}\), then there's no algorithm for \(Q\) either.
 
+這背後的概念就是 reduction（就演算法的那個 reduction） 。
+
+
+\subsection{Principle of modern crypto}
+
+\subparagraph{Kerckhoff's principle}
+「加密方法不能被要求是保密的，就算它落入敵人手中也不應該造成麻煩」 \\
+意即，整套加密方法的安全性只仰賴金鑰的保密。
+
+（原文： It should not require secrecy, and it should not be a problem if it falls into enemy hands.）
+
+\subparagraph{Principle of modern crypto}
+\begin{enumerate}[itemsep=10pt]
+	\item Formal definition
+		\begin{itemize}
+			\item System framework (model)：系統長什麼樣子
+			\item Security definition：如何定義安全
+		\end{itemize}
+	\item Precise assumption \qquad \(\Pi'\)\\
+		通常會是已知難題 \\
+		從上一節的重點可以知道，我們通常會將加密法與某個已經被研究過的難題 (well-studied hardness) 做連結。若難題不是 well-studied，一來無法說服別人這個加密法安全，二來代表可能有人知道這個問題如何解決。
+	\item Construction \qquad \(\Pi\)\\
+		加密法的步驟是什麼
+	\item Security proof \\
+		基本上就是上一節的 reduction \\
+		如果假象的攻擊者可以在 definition （即第一個要素）底下破解 \(\Pi\)，那麼我可以構造另一個攻擊者，使其破解已知難題 \(\Pi'\)。 \\
+		上面逆否命題的推論可以寫成：如果 \(\Pi'\) 是安全的（意即不被破解），那麼 \(\Pi\) 就是安全的。
+\end{enumerate}
+
+加密系統 = 產生 key (key generation) + 加密 (encryption) + 解密 (decryption)
+
+
+\subsection{History of ccryptography}
+
+\paragraph{Shift cipher}
+
+使用 private key encryption。 \\
+Key 是每個字母需要做 shift 的次數。
+
+Key generation：選擇一個  \(key \in \{0, 1, \ldots, 25\}\) \\
+Encryption：將每個字母對應的數字 shift \(key\) 位 \\
+Decryption：將每個字母對應的數字\textbf{反方向} shift \(key\) 位
+
+破解：最多嘗試 26 次就可以找到答案
+
+
+\paragraph{Substitution cipher}
+
+使用 private key encryption。
+
+Key generation：將每個字母逐一對應到另一個字母，以此這個 mapping 作為 key
+Encryption：將明文中的字母按照 key 逐一對應過去
+Decryption：將密文中的字母按照 key 逐一對應回來
+
+破解：字典攻擊（常用詞）+頻率分析（「E」在英文中出現的次數比較多）
+
+加強：明文中不使用頻率較高的字母
+
+
+\paragraph{Stronger cipher?}
+
+Vigenère cipher：設定偏移量為字母在明文中所在的位置。
+
+DES (first published in 1975, and standardized in 1977)
+
+AES
+
+
+\paragraph{History about PKC}
+
+1974: Merkle proposed the notion \\
+1976: Diffie-Hellman proposed the key exchange solution (Turing Awad 2015) \\
+1977: Rivest-Shamir-Adleman proposed the first PKE (Turing Award 2002) \\
+UK claimed their Government Communications Headquarters proposed such PKC idea before them.
+
+Other impovements: ID-based encryption from Weil Pairing\\
+使用了不同的 assumption，所以概念上較簡單，執行起來也較有效率
+（關於 ID-based 的概念，之後如果有時間，可能會提到）
