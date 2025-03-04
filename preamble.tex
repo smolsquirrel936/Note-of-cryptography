@@ -101,110 +101,19 @@
 \usepackage{siunitx}            % for SI
 \usepackage{newunicodechar}
 \usepackage{mathtools}
+\usepackage{amsmath}
 
-% >>>>>>>>>>>>>>>>> listings environment ----------------------
-\usepackage{listings}
-\usepackage{textcomp}
-\usepackage{upquote}
-\usepackage{upgreek}        % for \upmu
-%\usepackage{newtxtt}        % font package of txtt (in order to show minus sign in custom listings environment)
-% Default fixed font does not support bold face
-\usepackage{fontspec,xltxtra,xunicode}      % replace package "newtxtt"
-\defaultfontfeatures{Mapping=tex-text}
-
-\DeclareFixedFont{\ttb}{T1}{txtt}{bx}{n}{12} % for bold
-\DeclareFixedFont{\ttm}{T1}{txtt}{m}{n}{12}  % for normal
-\DeclareFixedFont{\ttbblock}{T1}{txtt}{bx}{n}{10} % for bold in code block
-\DeclareFixedFont{\ttmblock}{T1}{txtt}{m}{n}{10}  % for normal in code block
-
-% settings for 'command' environment
-\newcommand\commandstyle{\lstset{
-	%language=Bash,
-	basicstyle=\ttm,
-	tabsize=4,                        % tab width
-	numberstyle=\ttm,
-	frame=tb,                         % Any extra options here
-	showstringspaces=false,
-	breaklines,                       % Enable line wrapping
-	gobble=4,                         % trim leading spaces
-	aboveskip = \baselineskip,        % to offset(neutralize) the custom \parskip (which is set to a \baselineskip)
-	literate={-}{-}1 {*}{\normalfont{*}}1,                 % keep hyphen from combining into one
-}}
-
-\lstnewenvironment{command}[1][]{
-	\commandstyle
-	\lstset{#1}
-}{}
-
-% Custom colors
-\definecolor{deepblue}{rgb}{0,0,0.5}
-\definecolor{deepred}{rgb}{0.6,0,0}
-\definecolor{deepgreen}{rgb}{0,0.5,0}
-
-% Python style for highlighting
-\newcommand\pythonblockstyle{\lstset{
-		language=Python,
-		basicstyle=\ttmblock,
-		commentstyle=\ttmblock\color{Gray},
-		tabsize=4,                        % tab width
-		numberstyle=\ttm,
-		morekeywords={self},              % Add keywords here
-		keywordstyle=\ttbblock\color{deepblue},
-		emph={MyClass,__init__},          % Custom highlighting
-		emphstyle=\ttbblock\color{deepred},    % Custom highlighting style
-		stringstyle=\color{deepgreen},
-		frame=tb,                         % Any extra options here
-		showstringspaces=false,
-		breaklines,                       % Enable line wrapping
-		gobble=4,                         % trim leading spaces
-		aboveskip = \baselineskip,        % to offset(neutralize) the custom \parskip (which is set to a \baselineskip)
-		literate={-}{-}1 {±}{$\pm$}1 {*}{\normalfont{*}}1,     % keep hyphen from combining into one
-		upquote=true,                     % make single quote "stragiht", need to work with 'textcomp' package
-}}
-
-\newcommand\pythoninlinestyle{\lstset{
-		language=Python,
-		basicstyle=\ttm,
-		commentstyle=\ttm\color{Gray},
-		tabsize=4,                        % tab width
-		numberstyle=\ttm,
-		morekeywords={self},              % Add keywords here
-		keywordstyle=\ttb\color{deepblue},
-		emph={MyClass,__init__},          % Custom highlighting
-		emphstyle=\ttb\color{deepred},    % Custom highlighting style
-		stringstyle=\color{deepgreen},
-		frame=tb,                         % Any extra options here
-		showstringspaces=false,
-		breaklines,                       % Enable line wrapping
-		gobble=4,                         % trim leading spaces
-		aboveskip = \baselineskip,        % to offset(neutralize) the custom \parskip (which is set to a \baselineskip)
-		literate={-}{-}1 {±}{$\pm$}1 {*}{\normalfont{*}}1,     % keep hyphen from combining into one
-		upquote=true,                     % make single quote "stragiht", need to work with 'textcomp' package
-}}
+% Define some commonly used mathematical symbols
+\DeclareMathOperator{\Gen}{Gen}
+\DeclareMathOperator{\Dec}{Dec}
+\DeclareMathOperator{\Enc}{Enc}
+\DeclareMathOperator{\dist}{dist}
+\DeclareMathOperator{\K}{\mathcal{K}}
+\DeclareMathOperator{\M}{\mathcal{M}}
+\DeclareMathOperator{\C}{\mathcal{C}}
 
 
-% Python environment
-\lstnewenvironment{python}[1][]
-{
-	\pythonblockstyle
-	\lstset{#1}
-}
-{}
 
-% Python for external files
-\newcommand\pythonexternal[2][]{{
-		\pythonblockstyle
-		\lstinputlisting[
-		#1,
-		inputpath = ./code,      % default input path
-		title={\parbox{\textwidth}{\hfill\ttm{#2}}}, % make title right-aligned with fixed-width typeface
-		numbers=left, numbersep=2em,  % line number settings
-		]{#2}}}
-
-% Python for inline
-\newcommand\pythoninline[1]{{\pythoninlinestyle\lstinline!#1!}}
-
-% --------------- listings environment <<<<<<<<<<<<<<<<<<
 \definecolor{codeGray}{RGB}{227,230,232}
 \newcommand{\codeblock}[1]{\texttt{\cjkhl{codeGray}{#1}}}
 
@@ -257,3 +166,5 @@
 		{#1：} & \parbox[t]{\linewidth}{\raggedright{}#2}
 	\end{tabularx}
 }
+
+
