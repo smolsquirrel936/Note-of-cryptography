@@ -106,15 +106,16 @@ A scheme \(\Pi\) meets \textbf{perfect secrecy} means observation (usually from 
 
 \subsection{Perfect secrecy}
 
-Formal definition of perfect secrecy (\textbf{Definition 1}): \\
+\subparagraph{Formal definition of perfect secrecy (\textbf{Definition 1}):}
+
 An encrytion scheme \(\Pi = (\Gen, \Enc, \Dec)\) with message space \(\M\) is perfect secrecy if for every probability distribution over \(\M\), every message \(m \in \M\) and every chiphertext \(c \in \C\) for \(\Pr[C = c] > 0\)
 \[\Pr[M = m | C = c] = \Pr[M = m]\]
 
-簡單來說就是在觀察 \(c\) 之後，所得知的 \(\dist(\M)\) 與在觀察 \(c\) 之前相等。 \\
+簡單來說，就是在觀察 \(c\) 之後，所得知的 \(\dist(\M)\) 與在觀察 \(c\) 之前相等。 \\
 若 \(c\) 洩漏了某些資訊，則上式中的等號 (=) 應該改成大於符號 (>)。
 
 
-\paragraph{Is shift cipher a perfect secrecy?}
+\subparagraph{Example: shift cipher}
 
 這邊用和前面一樣的例子：
 \begin{align*}
