@@ -1,0 +1,1 @@
+- Replace `\text{\textquotesingle{}a\textquotesingle}` with the new command `\letter`
