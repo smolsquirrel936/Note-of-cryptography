@@ -31,21 +31,21 @@ An encryption scheme \(\Pi = (\Gen, \Enc, \Dec)\) with message space is perfectl
 \subparagraph{Proof of Def. 2 to Def. 1}
 
 Fix a \(\dist(\M)\), a message \(m\) and a ciphertext \(c\) for which \(\Pr[C = c] > 0\). \\
-If \(\Pr[M = m] = 0\), then \(\Pr[M = m | C = c] = \Pr[M = m]\). It always holds. \\
+If \(\Pr[M = m] = 0\), then \(\Pr[M = m \mid C = c] = \Pr[M = m]\). It always holds. \\
 If \(\Pr[M = m] > 0\):
 \begin{myEnumerate}[label=(\roman*)]
-	\item \( \Pr[C = c | M = m] = \Pr[\Enc_K(m) = c | M = m] = \Pr[\Enc_K(M) = c] = \mathbf{\alpha} \)
+	\item \( \Pr[C = c \mid M = m] = \Pr[\Enc_K(m) = c \mid M = m] = \Pr[\Enc_K(M) = c] = \mathbf{\alpha} \)
 	
 	\item For every \(m' \in \M\),
-	\[ \Pr[C = c | M = m'] = \Pr[\Enc_K(M) = c | M = m'] = \Pr[\Enc_K(m') = c] = \mathbf{\alpha} \]
+	\[ \Pr[C = c \mid M = m'] = \Pr[\Enc_K(M) = c \mid M = m'] = \Pr[\Enc_K(m') = c] = \mathbf{\alpha} \]
 	
 	\item By Bayes' Theorem, 
 	\begingroup
 	\addtolength{\jot}{1em}
 	\begin{align*}
-		\Pr[M = m | C = c]
-				&= \frac{\Pr[C = c | M = m] \cdot \Pr[M = m]}{\Pr[C = c]} \\
-				&= \frac{\Pr[C = c | M = m] \cdot \Pr[M = m]}{\sum_{m' \in \M} \Pr[C = c | M = m'] \cdot \Pr[M = m']} \tag{by (i) and (ii)}\\
+		\Pr[M = m \mid C = c]
+				&= \frac{\Pr[C = c \mid M = m] \cdot \Pr[M = m]}{\Pr[C = c]} \\
+				&= \frac{\Pr[C = c \mid M = m] \cdot \Pr[M = m]}{\sum_{m' \in \M} \Pr[C = c \mid M = m'] \cdot \Pr[M = m']} \tag{by (i) and (ii)}\\
 				& = \frac{\alpha \cdot \Pr[M = m]}{\sum_{m' \in \M} \ \alpha \cdot \Pr[M = m']} \\
 				& = \frac{\alpha \cdot \Pr[M = m]}{\alpha \cdot \sum_{m' \in \M} \ \Pr[M = m']} \\
 				& = \frac{\cancel\alpha \cdot \Pr[M = m]}{\cancel\alpha \cdot \sum_{m' \in \M} \Pr[M = m']} \\
@@ -59,29 +59,28 @@ If \(\Pr[M = m] > 0\):
 \subparagraph{Proof of Def. 1 to Def. 2 (Quiz)}
 
 Fix a \(\dist(\M)\), a message \(m\) and a ciphertext \(c\) for which \(\Pr[C = c] > 0\). \\
-If \(\Pr[C = c] = 0\), then \(\Pr[C = c | M = m] = \Pr[C = c | M = m'] = 0\). It always holds.
-For \(\Pr[\Enc_K(m) = c]\),
+If \(\Pr[C = c] = 0\), then \(\Pr[C = c \mid M = m] = \Pr[C = c \mid M = m'] = 0\). It always holds. \\
+If \(\Pr[C = c] > 0\): \\
+(i) For \(\Pr[\Enc_K(m) = c]\),
 \begin{align*}
-	\Pr[\Enc_K(m) = c] &= Pr[C = c | M = m]\\
-	&= \frac{\Pr[M = m | C = c] \cdot \Pr[C = c]}{\Pr[M = m]} \\
+	\Pr[\Enc_K(m) = c] &= Pr[C = c \mid M = m]\\
+	&= \frac{\Pr[M = m \mid C = c] \cdot \Pr[C = c]}{\Pr[M = m]} \\
 	&= \frac{\Pr[M = m] \cdot \Pr[C =c]}{Pr[M = m]} \tag{by Def. 1}\\
 	&= \frac{\cancel{\Pr[M = m]} \cdot \Pr[C = c]}{\cancel{Pr[M = m]}} \\
 	&= \Pr[C = c]
 \end{align*}
 
-For \(\Pr[\Enc_K(m') = c]\),
+(ii) For \(\Pr[\Enc_K(m') = c]\),
 \begin{align*}
-	\Pr[\Enc_K(m) = c] &= Pr[C = c | M = m']\\
-	&= \frac{\Pr[M = m' | C = c] \cdot \Pr[C = c]}{\Pr[M = m']} \\
+	\Pr[\Enc_K(m) = c] &= Pr[C = c \mid M = m']\\
+	&= \frac{\Pr[M = m' \mid C = c] \cdot \Pr[C = c]}{\Pr[M = m']} \\
 	&= \frac{\Pr[M = m'] \cdot \Pr[C =c]}{Pr[M = m']} \tag{by Def. 1} \\
 	&= \frac{\cancel{\Pr[M = m']} \cdot \Pr[C = c]}{\cancel{Pr[M = m']}} \\
 	&= \Pr[C = c]
 \end{align*}
 
-From above, we know that
-\[
-	\Pr[\Enc_K(m) = c] = \Pr[\Enc_K(m') = c]
-\]
+From (i) and (ii), we know that
+\[ \Pr[\Enc_K(m) = c] = \Pr[\Enc_K(m') = c] \]
 
 
 \subsection{Perfect secrecy III}
@@ -138,7 +137,7 @@ Adversarial indistinguishable experiment
 \begin{align*}
 	\Pr[PrivK_{A, \Pi}^{eav}] &= \Pr[b' = b] \\
 	&= \Pr[b' = b \wedge b = 0] + \Pr[b' = b \wedge b = 1] \tag{rewrite} \\
-	&= \Pr[b' = b | b = 0] \times \Pr[b = 0] + \Pr[b' = b | b = 1] \times \Pr[b = 1] \tag{rewrite} \\
+	&= \Pr[b' = b \mid b = 0] \times \Pr[b = 0] + \Pr[b' = b \mid b = 1] \times \Pr[b = 1] \tag{rewrite} \\
 	&= \Pr[b' = 0]  \times \Pr[b = 0] + \Pr[b' = 1] \times \Pr[b = 1] \\
 	&= \Pr[b' = 0]  \times \frac{1}{2} + \Pr[b' = 1] \times \frac{1}{2} \tag{by Def. 2 denoted above} \\
 	&= \frac{1}{2}(\Pr[b' = 0] + \Pr[b' = 1]) \\
@@ -168,10 +167,10 @@ Decryption algorithm \(\Dec\): given \(k, c\), \(\Dec\) outputs message \(m = c 
 Prove by Def. 1
 
 (i) For an arbirary \(c \in \C\) and \(m \in \M\) \\
-\[ \Pr[C = c | M = m] = \Pr[\Enc_K(m) = c] = \Pr[m \oplus K = c] = \Pr[K = m \oplus c] = \frac{1}{2^l}\]
+\[ \Pr[C = c \mid M = m] = \Pr[\Enc_K(m) = c] = \Pr[m \oplus K = c] = \Pr[K = m \oplus c] = \frac{1}{2^l}\]
 (ii) Fix any \(\dist(\M)\), for any \(c \in \C\)
 \begin{align*}
-	\Pr [C = c] &= \sum_{m' \in \M} \Pr[C = c | M = m'] \cdot \Pr[M = m'] \\
+	\Pr [C = c] &= \sum_{m' \in \M} \Pr[C = c \mid M = m'] \cdot \Pr[M = m'] \\
 	&= \sum_{m' \in \M} \frac{1}{2^l} \cdot \Pr[M = m'] \\
 	&= 2^{-l} (\sum_{m' \in \M} \Pr[M = m']) \\
 	&= 2^{-l}
@@ -179,7 +178,7 @@ Prove by Def. 1
 
 (iii)
 \begin{align*}
-	\Pr[M = m | C = c] &= \frac{\Pr[C = c | M = m] \cdot \Pr[M = m]}{Pr[C = c]} \\
+	\Pr[M = m \mid C = c] &= \frac{\Pr[C = c \mid M = m] \cdot \Pr[M = m]}{Pr[C = c]} \\
 	&= \frac{2^{-l} \cdot \Pr[M = m]}{2^{-l}} \\
 	&= \Pr[M = m]
 \end{align*}

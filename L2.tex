@@ -81,16 +81,16 @@ Then
 
 Condition probability
 \begin{align*}
-	\Pr[M = \letter{a} | C =  \letter{b}] &=
-	\frac{\Pr[C = \letter{b} | M = \letter{a}] \cdot \Pr[M = \letter{a}]}{\Pr[C = \letter{b}]} \\
+	\Pr[M = \letter{a} \mid C =  \letter{b}] &=
+	\frac{\Pr[C = \letter{b} \mid M = \letter{a}] \cdot \Pr[M = \letter{a}]}{\Pr[C = \letter{b}]} \\
 	&= \frac{\frac{1}{26} \cdot 0.7}{\frac{1}{26}} \\
 	&= 0.7
 \end{align*}
 
-where \, \(\Pr[C = \letter{b} | M = \letter{a}]\) \, iff. \(K = 1\), and\, \(\Pr[K = 1] = \displaystyle\frac{1}{26}\)
+where \, \(\Pr[C = \letter{b} \mid M = \letter{a}]\) \, iff. \(K = 1\), and\, \(\Pr[K = 1] = \displaystyle\frac{1}{26}\)
 
 [Bayes' theorem]
-\[\Pr[A|B] = \frac{\Pr[B|A] \cdot \Pr[A]}{\Pr[B]} \qquad \text{if} \quad \Pr[B] \neq 0\]
+\[\Pr[A \mid B] = \frac{\Pr[B \mid A] \cdot \Pr[A]}{\Pr[B]} \qquad \text{if} \quad \Pr[B] \neq 0\]
 
 
 \subsection{Intuition for security}
@@ -107,7 +107,7 @@ A scheme \(\Pi\) meets \textbf{perfect secrecy} means observation (usually from 
 \subparagraph{Formal definition of perfect secrecy (\textbf{Definition 1})}
 
 An encrytion scheme \(\Pi = (\Gen, \Enc, \Dec)\) with message space \(\M\) is perfect secrecy if for every probability distribution over \(\M\), every message \(m \in \M\) and every chiphertext \(c \in \C\) for \(\Pr[C = c] > 0\)
-\[\Pr[M = m | C = c] = \Pr[M = m]\]
+\[\Pr[M = m \mid C = c] = \Pr[M = m]\]
 
 簡單來說，就是在觀察 \(c\) 之後，所得知的 \(\dist(\M)\) 與在觀察 \(c\) 之前相等。 \\
 若 \(c\) 洩漏了某些資訊，則上式中的等號 (=) 應該改成大於符號 (>)。
@@ -127,8 +127,8 @@ An encrytion scheme \(\Pi = (\Gen, \Enc, \Dec)\) with message space \(\M\) is pe
 		&= \frac{1}{26} \\
 	& \\
 	& \\
-	\Pr[M = \letter{a} | C =  \letter{b}] &=
-	\frac{\Pr[C = \letter{b} | M = \letter{a}] \cdot \Pr[M = \letter{a}]}{\Pr[C = \letter{b}]} \\
+	\Pr[M = \letter{a} \mid C =  \letter{b}] &=
+	\frac{\Pr[C = \letter{b} \mid M = \letter{a}] \cdot \Pr[M = \letter{a}]}{\Pr[C = \letter{b}]} \\
 	&= \frac{\displaystyle{\frac{1}{26}} \cdot 0.7}{\displaystyle{\frac{1}{26}}} \\
 	&= 0.7 \\
 	&= \Pr[M = \letter{a}]
