@@ -62,18 +62,18 @@ Let distribution of \(\M\)
 \begin{equation*}
 	\dist(\M) =
 		\begin{cases}
-			\Pr[M = \text{\textquotesingle{}a\textquotesingle}] = 0.7 \\
-			\Pr[M = \text{\textquotesingle{}z\textquotesingle}] = 0.3
+			\Pr[M = \letter{a}] = 0.7 \\
+			\Pr[M = \letter{z}] = 0.3
 		\end{cases}
 \end{equation*}
 
 Then
 \begin{align*}
-	\Pr[C = \text{\textquotesingle{}b\textquotesingle}] &= 
-			\Pr[M = \text{\textquotesingle{}a\textquotesingle} \wedge K = 1] +
-			\Pr[M = \text{\textquotesingle{}z\textquotesingle} \wedge K = 2] \\
-		&= \Pr[M = \text{\textquotesingle{}a\textquotesingle}] \cdot \Pr[K = 1] + 
-			\Pr[M = \text{\textquotesingle{}z\textquotesingle}] \cdot \Pr[K = 2]
+	\Pr[C = \letter{b}] &= 
+			\Pr[M = \letter{a} \wedge K = 1] +
+			\Pr[M = \letter{z} \wedge K = 2] \\
+		&= \Pr[M = \letter{a}] \cdot \Pr[K = 1] + 
+			\Pr[M = \letter{z}] \cdot \Pr[K = 2]
 			\quad \text{(By independence)} \\
 		&= 0.7 \cdot \frac{1}{26} + 0.3 \cdot \frac{1}{26} \\
 		&= \frac{1}{26}
@@ -81,15 +81,13 @@ Then
 
 Condition probability
 \begin{align*}
-	\Pr[M = \text{\textquotesingle{}a\textquotesingle} | C =  \text{\textquotesingle{}b\textquotesingle}] &=
-	\frac{
-		\Pr[C = \text{\textquotesingle{}b\textquotesingle} | M = \text{\textquotesingle{}a\textquotesingle}] \cdot \Pr[M = \text{\textquotesingle{}a\textquotesingle}]
-	}
-	{\Pr[C = \text{\textquotesingle{}b\textquotesingle}]} \\
-	&= \frac{\frac{1}{26} \cdot 0.7}{\frac{1}{26}}
+	\Pr[M = \letter{a} | C =  \letter{b}] &=
+	\frac{\Pr[C = \letter{b} | M = \letter{a}] \cdot \Pr[M = \letter{a}]}{\Pr[C = \letter{b}]} \\
+	&= \frac{\frac{1}{26} \cdot 0.7}{\frac{1}{26}} \\
+	&= 0.7
 \end{align*}
 
-where \, \(\Pr[C = \text{\textquotesingle{}b\textquotesingle} | M = \text{\textquotesingle{}a\textquotesingle}]\) \, means \, \(K = 1\), and\, \(\Pr[K = 1] = \frac{1}{26}\)
+where \, \(\Pr[C = \letter{b} | M = \letter{a}]\) \, iff. \(K = 1\), and\, \(\Pr[K = 1] = \displaystyle\frac{1}{26}\)
 
 [Bayes' theorem]
 \[\Pr[A|B] = \frac{\Pr[B|A] \cdot \Pr[A]}{\Pr[B]} \qquad \text{if} \quad \Pr[B] \neq 0\]
@@ -119,27 +117,21 @@ An encrytion scheme \(\Pi = (\Gen, \Enc, \Dec)\) with message space \(\M\) is pe
 
 這邊用和前面一樣的例子：
 \begin{align*}
-	\Pr[C = \text{\textquotesingle{}b\textquotesingle}] &= 
-			\Pr[M = \text{\textquotesingle{}a\textquotesingle} \wedge K = 1] +
-			\Pr[M = \text{\textquotesingle{}z\textquotesingle} \wedge K = 2] \\
-		&= \Pr[M = \text{\textquotesingle{}a\textquotesingle}] \cdot \Pr[K = 1] + 
-			\Pr[M = \text{\textquotesingle{}z\textquotesingle}] \cdot \Pr[K = 2]
+	\Pr[C = \letter{b}] &= 
+			\Pr[M = \letter{a} \wedge K = 1] +
+			\Pr[M = \letter{z} \wedge K = 2] \\
+		&= \Pr[M = \letter{a}] \cdot \Pr[K = 1] + 
+			\Pr[M = \letter{z}] \cdot \Pr[K = 2]
 			\quad \text{(By independence)} \\
 		&= 0.7 \cdot \frac{1}{26} + 0.3 \cdot \frac{1}{26} \\
-		&= \frac{1}{26}
-\end{align*}
-
-\(\Pr[C = \text{\textquotesingle{}b\textquotesingle}] = \displaystyle{\frac{1}{26}}\)
-
-\begin{align*}
-	\Pr[M = \text{\textquotesingle{}a\textquotesingle} | C =  \text{\textquotesingle{}b\textquotesingle}] &=
-	\frac{
-		\Pr[C = \text{\textquotesingle{}b\textquotesingle} | M = \text{\textquotesingle{}a\textquotesingle}] \cdot \Pr[M = \text{\textquotesingle{}a\textquotesingle}]
-	}
-	{\Pr[C = \text{\textquotesingle{}b\textquotesingle}]} \\
+		&= \frac{1}{26} \\
+	& \\
+	& \\
+	\Pr[M = \letter{a} | C =  \letter{b}] &=
+	\frac{\Pr[C = \letter{b} | M = \letter{a}] \cdot \Pr[M = \letter{a}]}{\Pr[C = \letter{b}]} \\
 	&= \frac{\displaystyle{\frac{1}{26}} \cdot 0.7}{\displaystyle{\frac{1}{26}}} \\
 	&= 0.7 \\
-	&= \Pr[M = \text{\textquotesingle{}a\textquotesingle}]
+	&= \Pr[M = \letter{a}]
 \end{align*}
 
 由此可知，shift cipher 是 prefect secrecy。
