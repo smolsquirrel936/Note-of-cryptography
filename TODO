@@ -1,2 +1,3 @@
 - Replace `\text{\textquotesingle{}a\textquotesingle}` with the new command `\letter`
 - Replace notation of conditional probability `\Pr[A|B]` to `\Pr[A \mid B]`
+- Bonus in L3
