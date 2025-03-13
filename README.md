@@ -1,4 +1,4 @@
-# Note-of-crytography
+# Note-of-cryptography
 This note is about the course of cryptography at NTHU, Spring 2025.
 
 ## I just want to read PDF, what should I do?
