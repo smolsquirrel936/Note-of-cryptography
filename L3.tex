@@ -34,7 +34,7 @@ Fix a \(\dist(\M)\), a message \(m\) and a ciphertext \(c\) for which \(\Pr[C = 
 If \(\Pr[M = m] = 0\), then \(\Pr[M = m \mid C = c] = \Pr[M = m]\). It always holds. \\
 If \(\Pr[M = m] > 0\):
 \begin{myEnumerate}[label=(\roman*)]
-	\item \( \Pr[C = c \mid M = m] = \Pr[\Enc_K(m) = c \mid M = m] = \Pr[\Enc_K(M) = c] = \mathbf{\alpha} \)
+	\item \( \Pr[C = c \mid M = m] = \Pr[\Enc_K(M) = c \mid M = m] = \Pr[\Enc_K(m) = c] = \mathbf{\alpha} \)
 	
 	\item For every \(m' \in \M\),
 	\[ \Pr[C = c \mid M = m'] = \Pr[\Enc_K(M) = c \mid M = m'] = \Pr[\Enc_K(m') = c] = \mathbf{\alpha} \]
@@ -48,7 +48,7 @@ If \(\Pr[M = m] > 0\):
 				&= \frac{\Pr[C = c \mid M = m] \cdot \Pr[M = m]}{\sum_{m' \in \M} \Pr[C = c \mid M = m'] \cdot \Pr[M = m']} \tag{by (i) and (ii)}\\
 				& = \frac{\alpha \cdot \Pr[M = m]}{\sum_{m' \in \M} \ \alpha \cdot \Pr[M = m']} \\
 				& = \frac{\alpha \cdot \Pr[M = m]}{\alpha \cdot \sum_{m' \in \M} \ \Pr[M = m']} \\
-				& = \frac{\cancel\alpha \cdot \Pr[M = m]}{\cancel\alpha \cdot \sum_{m' \in \M} \Pr[M = m']} \\
+				& = \frac{\cancel\alpha \cdot \Pr[M = m]}{\cancel\alpha \cdot \sum_{m' \in \M} \ \Pr[M = m']} \\
 				& = \Pr[M = m]
 	\end{align*}
 	\endgroup
@@ -65,8 +65,8 @@ If \(\Pr[C = c] > 0\): \\
 \begin{align*}
 	\Pr[\Enc_K(m) = c] &= Pr[C = c \mid M = m]\\
 	&= \frac{\Pr[M = m \mid C = c] \cdot \Pr[C = c]}{\Pr[M = m]} \\
-	&= \frac{\Pr[M = m] \cdot \Pr[C =c]}{Pr[M = m]} \tag{by Def. 1}\\
-	&= \frac{\cancel{\Pr[M = m]} \cdot \Pr[C = c]}{\cancel{Pr[M = m]}} \\
+	&= \frac{\Pr[M = m] \cdot \Pr[C =c]}{\Pr[M = m]} \tag{by Def. 1}\\
+	&= \frac{\cancel{\Pr[M = m]} \cdot \Pr[C = c]}{\cancel{\Pr[M = m]}} \\
 	&= \Pr[C = c]
 \end{align*}
 
@@ -74,8 +74,8 @@ If \(\Pr[C = c] > 0\): \\
 \begin{align*}
 	\Pr[\Enc_K(m) = c] &= Pr[C = c \mid M = m']\\
 	&= \frac{\Pr[M = m' \mid C = c] \cdot \Pr[C = c]}{\Pr[M = m']} \\
-	&= \frac{\Pr[M = m'] \cdot \Pr[C =c]}{Pr[M = m']} \tag{by Def. 1} \\
-	&= \frac{\cancel{\Pr[M = m']} \cdot \Pr[C = c]}{\cancel{Pr[M = m']}} \\
+	&= \frac{\Pr[M = m'] \cdot \Pr[C =c]}{\Pr[M = m']} \tag{by Def. 1} \\
+	&= \frac{\cancel{\Pr[M = m']} \cdot \Pr[C = c]}{\cancel{\Pr[M = m']}} \\
 	&= \Pr[C = c]
 \end{align*}
 
@@ -117,13 +117,13 @@ Adversarial indistinguishable experiment
 
 \subparagraph{Lemma}
 
-\(\Pi\) is perfectly secret if and only if it is perfectly indinguishable.
+\(\Pi\) is perfectly secret if and only if it is perfectly indistinguishable.
 
 \subparagraph{Proof of Def. 2 to Def. 3}
 
 由 Def. 2 可知
 \[
-	\Pr[\Enc_K(m_0) = c] = \Pr[\Enc_k(m_1) = c]
+	\Pr[\Enc_K(m_0) = c] = \Pr[\Enc_K(m_1) = c]
 \]
 
 又因為 \(c \leftarrow \Enc_k(m_b)\)，所以
@@ -138,7 +138,7 @@ Adversarial indistinguishable experiment
 	\Pr[PrivK_{A, \Pi}^{eav}] &= \Pr[b' = b] \\
 	&= \Pr[b' = b \wedge b = 0] + \Pr[b' = b \wedge b = 1] \tag{rewrite} \\
 	&= \Pr[b' = b \mid b = 0] \times \Pr[b = 0] + \Pr[b' = b \mid b = 1] \times \Pr[b = 1] \tag{rewrite} \\
-	&= \Pr[b' = 0]  \times \Pr[b = 0] + \Pr[b' = 1] \times \Pr[b = 1] \\
+	&= \Pr[b' = 0]  \times \Pr[b = 0] + \Pr[b' = 1] \times \Pr[b = 1] \tag{rewrite} \\
 	&= \Pr[b' = 0]  \times \frac{1}{2} + \Pr[b' = 1] \times \frac{1}{2} \tag{by Def. 2 denoted above} \\
 	&= \frac{1}{2}(\Pr[b' = 0] + \Pr[b' = 1]) \\
 	&= \frac{1}{2}	\tag{\(\because \Pr[b' = 0] + \Pr[b' = 1] = 1\)}
@@ -153,10 +153,10 @@ Adversarial indistinguishable experiment
 
 \subparagraph{Construction of OTP}
 
-Fix an integer \(l\) > 0, \(|\M| = |\C| = |\K| = l\). \\
-(whch means all are lenght-\(l\) binary strings, such as \(\{0, 1\}^l\))
+Fix an integer \(l\) > 0, and let \(|\M| = |\C| = |\K| = l\). \\
+(whch means all are binary strings of length \(l\), i.e., \(\{0, 1\}^l\))
 
-Key generation algorithm \(\Gen\): uniformly randomly chooses a key \(k \in \K\), \(k\) is \(l\)-bits.
+Key generation algorithm \(\Gen\): uniformly randomly chooses a key \(k \in \K\), \(k\) is \(l\)-bit key.
 
 Encryption algorithm \(\Enc\): given \(k \in \{0, 1\}^l\) and a message \(m \in \{0, 1\}^l\), \(\Enc\) outputs a ciphertext \(c = m \oplus k\).
 
@@ -166,7 +166,7 @@ Decryption algorithm \(\Dec\): given \(k, c\), \(\Dec\) outputs message \(m = c 
 
 Prove by Def. 1
 
-(i) For an arbirary \(c \in \C\) and \(m \in \M\) \\
+(i) For an arbitrary \(c \in \C\) and \(m \in \M\) \\
 \[ \Pr[C = c \mid M = m] = \Pr[\Enc_K(m) = c] = \Pr[m \oplus K = c] = \Pr[K = m \oplus c] = \frac{1}{2^l}\]
 (ii) Fix any \(\dist(\M)\), for any \(c \in \C\)
 \begin{align*}
