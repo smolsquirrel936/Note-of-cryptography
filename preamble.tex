@@ -2,7 +2,7 @@
 \setCJKmainfont{Microsoft JhengHei}
 
 % content alignment
-\usepackage[document]{ragged2e}
+\usepackage[newcommands]{ragged2e}
 \usepackage{adjustbox}  % make table fit in \textwidth
 \usepackage{tabularx}   % for making table whose column width is stretch
 \usepackage{booktabs}   % prettify table
@@ -102,6 +102,7 @@
 \usepackage{newunicodechar}
 \usepackage{mathtools}
 \usepackage{amsmath}
+\usepackage{amsthm}
 \usepackage{amssymb}
 \usepackage{cancel}             % add cancel line for math
 
@@ -116,6 +117,14 @@
 % Since \DeclareMathOperator cannot accept arguments, so I use \newcommand instead.
 \newcommand{\letter}[1]{\text{\textquotesingle{}{#1}\textquotesingle}}
 
+% Define theorem for math
+\newtheoremstyle{break}
+  {\topsep}{\topsep}%
+  {}{}%
+  {\bfseries}{}%
+  {\newline}{}%
+\theoremstyle{break}
+\newtheorem{theorem}{Theorem}
 
 
 \definecolor{codeGray}{RGB}{227,230,232}
