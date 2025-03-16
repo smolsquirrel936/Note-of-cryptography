@@ -8,7 +8,7 @@
 	\[|\M| \le |\K| \]
 \end{theorem}
 
-\begin{proof}
+\begin{myProof}
 	Suppose \(|\K| < |\M|\), \(\Pi\) cannot be perfectly secret.
 
 	Consider the uniform \(\dist(\M)\) and fix \(c \in \C\), \(\Pr[C = c] = 0\).
@@ -21,7 +21,7 @@
 	
 	If \(|\K| < |\M|\) and \(\M(c) \le |\K|\), there exist some \(m' \in \M \) but \(m' \notin \M(c)\). \\
 	\(\Rightarrow \Pr[M = m' \mid C = c] = 0 \neq \Pr[M = m']\), which is not perfect secrecy.
-\end{proof}
+\end{myProof}
 
 \subparagraph{Quiz}
 
@@ -76,16 +76,16 @@ Computational security 是從計算上保證安全的一種安全性。它不像
 	A scheme \(\Pi\) is \((t,\epsilon)\)-secure if any adversary \(A\) running for time at most \(t\), succeeds in breaking \(\Pi\) with probability at most \(\epsilon\).
 \end{definition}
 
-ex: \(t = 2^{10}\), \(\epsilon = \displaystyle\frac{1}{2^{100}}\)
+Ex: \(t = 2^{10}\), \(\epsilon = \displaystyle\frac{1}{2^{100}}\)
 
 
 \paragraph{Asymptotic Definition}
 
 在這裡的 adversary \(A\) 的能力 (power) 是以漸進式術語來定義的 (asymptotic setting)：
 \begin{itemize}
-	\item "Efficient adversary"：這種 adversary 會執行可以在 polynomial time 內跑完的演算法。這種演算法的執行時間是 \(p(n)\)，其中 \(p\) 為多項式集合，而 \(n\) 為安全參數 (security parameter)。
+	\item Efficient adversary：這種 adversary 會執行可以在 polynomial time 內跑完的演算法。這種演算法的執行時間是 \(p(n)\)，其中 \(p\) 為多項式集合，而 \(n\) 為安全參數 (security parameter)。
 	
-	\item "Small probability of success": 成功機率小於任何 polynomial 的倒數。也就是
+	\item Small probability of success: 成功機率小於任何 polynomial 的倒數。也就是
 	\[\Pr[\mathrm{success}] < \frac{1}{p(n)} \text{, where } p \text{ is arbitary polynomial}\]
 \end{itemize}
 
@@ -146,7 +146,7 @@ Are \(f_1\) and \(f_2\) are still negligible functions? \textbf{Yes}
 \paragraph{Private Key Encryption}
 
 \begin{definition}[Private key encryption]
-	A private key encryption is tuple of PPT algorithm \((\Gen, \Enc, \Dec)\) \\
+	A private key encryption is a tuple of PPT algorithm \((\Gen, \Enc, \Dec)\) \\
 	\begin{myItemize}
 		\item Key generation: \(\Gen(1^k) \rightarrow k\). 這裡 \(n\) 的意義是 \(|\K| \geq n\) 或 \(|\K| = \mathrm{poly}(n)\)。
 		
@@ -157,24 +157,17 @@ Are \(f_1\) and \(f_2\) are still negligible functions? \textbf{Yes}
 \end{definition}
 
 
+\subparagraph{Basic definition of security}
 
+Eavesdropper：adversary 的策略或能力
 
+這裡和之前的 \(PrivK_{A, \Pi}^{eav}\) 大致一樣，參見 \fullref{PrivK}。
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+差異：
+\begin{myItemize}
+	\item Perfect secrecy：沒有 security parameter，因為不在意 adversary 有多少的能力
+		\[\Pr[PrivK_{A, \Pi}^{eav} = 1] = \frac{1}{2}\]
+	\item Computational security：有 security parameter \(n\)
+		\[\Pr[PrivK_{A, \Pi}^{eav} = 1] \leq \frac{1}{2} + \negl(n)\]
+\end{myItemize}
 
