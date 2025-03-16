@@ -145,7 +145,7 @@ Are \(f_1\) and \(f_2\) are still negligible functions? \textbf{Yes}
 
 \paragraph{Private Key Encryption}
 
-\begin{definition}[Private key encryption]
+\begin{definition}[Private key encryption] \label{def:priv_key_enc}
 	A private key encryption is a tuple of PPT algorithm \((\Gen, \Enc, \Dec)\) \\
 	\begin{myItemize}
 		\item Key generation: \(\Gen(1^k) \rightarrow k\). 這裡 \(n\) 的意義是 \(|\K| \geq n\) 或 \(|\K| = \mathrm{poly}(n)\)。
@@ -159,7 +159,7 @@ Are \(f_1\) and \(f_2\) are still negligible functions? \textbf{Yes}
 
 \subparagraph{Basic definition of security}
 
-Eavesdropper：adversary 的策略或能力
+Eavesdropping（竊聽）：adversary 的策略或能力
 
 這裡和之前的 \(PrivK_{A, \Pi}^{eav}\) 大致一樣，參見 \fullref{PrivK}。
 
