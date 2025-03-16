@@ -1,6 +1,9 @@
 \usepackage{xeCJK}
 \setCJKmainfont{Microsoft JhengHei}
 
+% Helper packages
+\usepackage{xstring}    % for string comparison
+
 % content alignment
 \usepackage[newcommands]{ragged2e}
 \usepackage{adjustbox}  % make table fit in \textwidth
@@ -127,6 +130,20 @@
 \theoremstyle{break}
 \newtheorem{theorem}{Theorem}
 \newtheorem{definition}{Definition}
+
+% Customized environment for proof
+\makeatletter
+\newenvironment{myProof}[1][\proofname]{\par
+    \pushQED{\qed}%
+    \normalfont \topsep6\p@\@plus6\p@\relax
+    \trivlist
+    \item[\hskip\labelsep
+        {\itshape \bfseries{Proof}}%
+        \IfStrEq{#1}{\proofname}{}{ (#1)} % 若 #1 為預設值，則不顯示括號
+        ]\mbox{}\par\nobreak}
+    {\popQED\endtrivlist\@endpefalse}
+\makeatother
+
 
 
 \definecolor{codeGray}{RGB}{227,230,232}
