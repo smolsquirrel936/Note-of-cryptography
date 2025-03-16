@@ -1,0 +1,180 @@
+\section{L4}
+
+
+\subsection{Limitation of Perfect Secrecy}
+
+\begin{theorem}[Limitation of perfect secrecy]
+	If \(\Pi = (\Gen, \Enc, \Dec)\) is a perfectly secret encryption  scheme with message space \(\M\) and key space \(\K\), then
+	\[|\M| \le |\K| \]
+\end{theorem}
+
+\begin{proof}
+	Suppose \(|\K| < |\M|\), \(\Pi\) cannot be perfectly secret.
+
+	Consider the uniform \(\dist(\M)\) and fix \(c \in \C\), \(\Pr[C = c] = 0\).
+	
+	Let \(\M(c)\) be the set of possible message which contains all possible messages decrypted by \(c\). \\ That is,
+	\[\M(c) \overset{\mathrm{def}}{=} \{m \mid m = \Dec_K(c) \text{ for some } k \in \K\}\]
+	
+	\(\Dec\) is deterministic function, so \(|\M(c)| \le |\K|\). \\
+	(We know \(\Dec_k(c) \coloneq m\), and different values of \(k\) may map to the same \(m\). If all \(m\) are distinct for different \(k\), then equation holds; otherwise, \(|\M(c)| < |\K|\).)
+	
+	If \(|\K| < |\M|\) and \(\M(c) \le |\K|\), there exist some \(m' \in \M \) but \(m' \notin \M(c)\). \\
+	\(\Rightarrow \Pr[M = m' \mid C = c] = 0 \neq \Pr[M = m']\), which is not perfect secrecy.
+\end{proof}
+
+\subparagraph{Quiz}
+
+We know that it's impossible to achieve pefect secrecy with shorter key size. So, what can we do or modify some factors to achieve shorter key? Any tradeoff (factor)?
+
+
+\paragraph{Shannon's Theorem}
+
+\begin{theorem}[Shannon's theorem]
+	Let \(\Pi = (\Gen, \Enc, \Dec)\) be an encryption scheme with message space \(M\) for which \(|\M|=|\K|=|\C|\). \\
+	The scheme is perfectly secret if and only if:
+	\begin{enumerate}[topsep=-\parskip]
+		\item Every key \(k \in \K\) is chosen with probability \(\displaystyle\frac{1}{|\K|}\) by \(\Gen\)
+		\item For every \(m \in \M\) and every \(c \in \C\), there exists a unique key \(k \in \K\) such that \(\Enc_k(m)\).
+	\end{enumerate}
+\end{theorem}
+
+\subparagraph{Quiz}
+
+Design a tricky scheme \(\Pi\) that \(k \in \K\) is \textbf{NOT} uniformly chosen. Show \(\Pi\) is \textbf{NOT} perfectly secret by using Definition 1, 2 or 3. \\
+(Hint: modify shift cipher or one-time pad)
+
+
+\subsection{Private Key Encryption}
+
+
+\paragraph{Computational Security}
+
+Perfect secrecy 的缺點 (weakness)：
+\begin{myItemize}
+	\item 只能用一次 (one time use)
+	\item key 的長度一定要大於訊息的長度 (\(|\K| \geq |\M|\))
+\end{myItemize}
+
+Computational security 是從計算上保證安全的一種安全性。它不像 pefect secrecy 那樣地完美，但可以更靈活地建立 scheme（如減少 key 的長度）。
+
+從 adversary 的觀點來看：
+\begin{table}[h]
+	\begin{tabular}{l@{\hspace{30pt}}l@{\hspace{30pt}}l} \toprule
+		Adversary's power & time/space & success probability \\ \midrule
+		Perfect secrecy & unbounded & = random guess \\
+		Computational security & polynomial time & = random guess + small probability \\ \bottomrule
+	\end{tabular}
+\end{table}
+
+目的：減少安全性，來換取更好的效率 (by weakening the security, to achieve better efficiency)。
+
+
+\paragraph{Concrete Definition}
+
+\begin{definition}[Concrete definition]
+	A scheme \(\Pi\) is \((t,\epsilon)\)-secure if any adversary \(A\) running for time at most \(t\), succeeds in breaking \(\Pi\) with probability at most \(\epsilon\).
+\end{definition}
+
+ex: \(t = 2^{10}\), \(\epsilon = \displaystyle\frac{1}{2^{100}}\)
+
+
+\paragraph{Asymptotic Definition}
+
+在這裡的 adversary \(A\) 的能力 (power) 是以漸進式術語來定義的 (asymptotic setting)：
+\begin{itemize}
+	\item "Efficient adversary"：這種 adversary 會執行可以在 polynomial time 內跑完的演算法。這種演算法的執行時間是 \(p(n)\)，其中 \(p\) 為多項式集合，而 \(n\) 為安全參數 (security parameter)。
+	
+	\item "Small probability of success": 成功機率小於任何 polynomial 的倒數。也就是
+	\[\Pr[\mathrm{success}] < \frac{1}{p(n)} \text{, where } p \text{ is arbitary polynomial}\]
+\end{itemize}
+
+PPT = Probabilistic Polynomial Time
+
+\begin{definition}[Asymptotic definition]
+	A scheme is secure if for any PPT adversary succeeds in breaking the scheme with at most \textbf{negligible} probability.
+\end{definition}
+
+
+\paragraph{Negligible Probability}
+
+Negligible function 是漸進小於 (asymptotic smaller) 任何 polynomial function 的函數。
+
+\begin{definition}
+	A function \(f\) is negligible if \\
+	for every positive polynomial \(p\), there exists a number \(N\) such that \(f(n) < \displaystyle\frac{1}{p(n)}\) where \(n > N\).
+\end{definition}
+
+Example: \\
+Let \(g(x) = \displaystyle\frac{1}{2^x}\). \\
+There exists \(N\) such that \(g(n) < \displaystyle\frac{1}{p(n)}\). \\
+\begin{align*}
+	&g(n) < \frac{1}{p(n)} \\
+	&\Rightarrow \quad \frac{1}{2^n} < \frac{1}{n^k} \tag{k is positive constant} \\
+	&\Rightarrow \quad 2^n > n^k \\
+	&\Rightarrow \quad n > k \cdot log_2(n) \\
+	&\Rightarrow \quad \frac{n}{log_2(n)} > k
+\end{align*}
+
+If \(n > k^2\), this inequality holds.
+
+\subparagraph{Quiz}
+
+Let \(\negl(x)\), \(\negl'(x)\) be negligible functions. \\
+\begin{enumerate}
+	\item A function \(f_1\), defined by \(f_1(x) = \negl(x) + \negl'(x)\)
+	\item A function \(f_2\), defined by \(f_2(x) = p(x) \cdot \negl(x)\), where \(p(x)\) is positive polynomial.
+\end{enumerate}
+
+Are \(f_1\) and \(f_2\) are still negligible functions? \textbf{Yes}
+
+\subparagraph{Summary}
+
+任何關於 computational security 的 security definition 都由下列組成：
+\begin{myEnumerate}
+	\item 破解 scheme 的定義（也就是怎麼樣才叫 scheme 被破解了）
+	\item 關於 adversary 的能力
+\end{myEnumerate}
+
+我們通常將 adversary 塑造 (model) 成有效率（有計算能力）的演算法，且只考慮 adversary 可以在 polynomial time 之內執行的 probabilistic stratigies。
+
+\begin{definition}
+	A scheme is secure if for every PPT adversary \(A\) carrying out an attack of some formally specified attack type, and the probability that \(A\) succeeds is negligible.
+\end{definition}
+
+
+\paragraph{Private Key Encryption}
+
+\begin{definition}[Private key encryption]
+	A private key encryption is tuple of PPT algorithm \((\Gen, \Enc, \Dec)\) \\
+	\begin{myItemize}
+		\item Key generation: \(\Gen(1^k) \rightarrow k\). 這裡 \(n\) 的意義是 \(|\K| \geq n\) 或 \(|\K| = \mathrm{poly}(n)\)。
+		
+		\item Encryption: \(\Enc_k(m) \rightarrow c\), where key \(k\) and \(m \in \{0, 1\}*\) are inputs. 若 \(m \in \{0, 1\}^{l(n)}\)，我們會稱這個等式為 fixed-length private key encryption with message length \(l(n)\)。
+		
+		\item Decryption: \(\Dec_k(c) \coloneq m\). If \(c\) cannot be decrypted, then outupt \(\bot\) (error). 
+	\end{myItemize}
+\end{definition}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
