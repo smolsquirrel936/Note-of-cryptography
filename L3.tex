@@ -146,7 +146,22 @@ Adversarial indistinguishable experiment
 
 \subparagraph{Proof of Def. 3 to Def. 2 (Bonus)}
 
-%TODO
+欲證 Def. 3（\(\Pr[PrivK_{A, \Pi}^{eav} = 1] = \frac{1}{2}\)） \(\Rightarrow\) Def. 2（\(\Pr[\Enc_K(m) = c] = \Pr[\Enc_K(m') = c]\)）
+
+\begin{myProof}[Prove by contraposition]
+	%TODO
+	
+	\iffalse
+	\begin{flalign*}
+		\text{Let} & \Pr[\Enc_K(m) = c] \neq \Pr[\Enc_K(m') = c] && \\
+		\Rightarrow & \Pr[\Enc_K(M) = c \mid M = m] \neq \Pr[\Enc_K(M) = c \mid M = m'] && \\
+		\Rightarrow & \Pr[C = c \mid M = m] \neq \Pr[C = c \mid M = m'] && \\
+		\Rightarrow & (\Pr[C = c \mid M = m] > \Pr[C = c \mid M = m']) \vee
+			(\Pr[C = c \mid M = m] < \Pr[C = c \mid M = m']) && \\
+		\Rightarrow & 
+	\end{flalign*}
+	\fi
+\end{myProof}
 
 
 \subsection{One-Time Pad (OTP)}
