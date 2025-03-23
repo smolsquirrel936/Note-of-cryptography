@@ -39,14 +39,14 @@ EAV = eavesdropping
 \begin{myItemize}
 	\item 修改之前的定義為 \(PrivK_{A, \Pi}^{eav}(n, b)\)，其定義都和之前一樣，除了 \(b\) 是固定的，而不是隨機選擇的。
 	\item 定義 \(out_A(PrivK_{A, \Pi}^{eav}(n, b)) = b'\)，其中 \(b'\) 是 \(A\) 的 output。
-	\item 沒有 PPT adversary \(A\) 可以知道現在是 experiment \(PrivK_{A, \Pi}^{eav}(n, b)\) 或 \(PrivK_{A, \Pi}^{eav}(n, b)\)。
+	\item 沒有 PPT adversary \(A\) 可以知道現在是 experiment \(PrivK_{A, \Pi}^{eav}(n, 0)\) 或 \(PrivK_{A, \Pi}^{eav}(n, 1)\)。
 \end{myItemize}
 
 正式定義如下：
 \begin{definition}[Equivalent formulation of EAV-security]
 	\(\Pi\) is EAV-secure if for all PPT adversary \(A\), there is a negligible function \(\negl\) such that
 	\[ | \Pr[out_A(PrivK_{A, \Pi}^{eav}(n, 0)) = 1] -
-		 \Pr[out_A(PrivK_{A, \Pi}^{eav}(n,1)) = 1] \leq \negl(n)\]
+		 \Pr[out_A(PrivK_{A, \Pi}^{eav}(n,1)) = 1] | \leq \negl(n)\]
 \end{definition}
 
 \begin{center}
@@ -64,11 +64,11 @@ Please write your thought for the impossibility to support arbitrary-length mess
 
 \paragraph{Pseudorandom Generator}
 
-\begin{definition}[pseduorandom generator, PRG]
+\begin{definition}[pseudorandom generator, PRG]
 	Let \(l\) be a polynomial and \(G\) is a deterministic polynomial-time algorithm. For any \(n\) and input \(s \in \{0, 1\}^n\), the output of \(G(s)\) is \(l(n)\)-length. \\
 	We say \(G\) is a PRG if:
 	\begin{myItemize}
-		\item Exapnsion: for every \(n\), it holds \(l(n) > n\). \(l\) is a so-called expansion factor of \(G\).
+		\item Expansion: for every \(n\), it holds \(l(n) > n\). \(l\) is a so-called expansion factor of \(G\).
 		\item Pseudorandomness: for any PPT algorithm \(D\) (aka distinguisher), there is a negligible function \(\negl\) such that
 		\[ | \Pr[D(G(s)) = 1] - \Pr[D(r) = 1] | \ \leq \ \negl(n)\]
 		where \(s \in \{0, 1\}^n\) and \(r \in \{0, 1\}^{l(n)}\) is a turly random variable.
@@ -79,14 +79,14 @@ Please write your thought for the impossibility to support arbitrary-length mess
 \paragraph{PRG-based Construction of Fixed-length Private Key Encryption}
 
 Let \(G\) be a PRG with expansion factor \(l\). \\
-Scheme \(\Pi = \Gen, \Enc, \Dec\).
+Scheme \(\Pi = (\Gen, \Enc, \Dec)\).
 \begin{myItemize}
 	\item \(\Gen(1^n)\): on input \(1^n\), choose uniform \(k \in \{0, 1\}^n\).
 	\item \(\Enc(k, m)\): with input of a message \(m \in \{0, 1\}^{l(n)}\) and outputs a ciphertext \(c = G(k) \oplus m\)
 	\item \(\Dec(k, c)\): with input of a ciphertext \(c \in \{0, 1\}^{l(n)}\) and outputs a message \(m = G(k) \oplus c\)
 \end{myItemize}
 
-這種構造法和 OTP（見 \fullref{def:OTP}）很像。那時候的 OTP 會遇到 pefect secrecy 的限制，也就是 key 的長度至少要和 message 一樣長（\(|\K| \geq |\M|\)）。在這裡，我們通過 PRG 來將原本的 key 長度 \(n\) 擴展成 \(l(n)\)，藉此來降低 key 的長度。而其代價就是，這種使用 PRG 的方法一定不是 perfect secrecy。
+這種構造法和 OTP（見 \fullref{def:OTP}）很像。那時候的 OTP 會遇到 perfect secrecy 的限制，也就是 key 的長度至少要和 message 一樣長（\(|\K| \geq |\M|\)）。在這裡，我們通過 PRG 來將原本的 key 長度 \(n\) 擴展成 \(l(n)\)，藉此來降低 key 的長度。而其代價就是，這種使用 PRG 的方法一定不是 perfect secrecy。
 
 P.S. 由於 private key encryption 要求雙方要事先使用安全通道交換同一把 key。若在這種情景下使用和 message 一樣長的 key，那我們就可以直接使用這個安全通道交換訊息本身了，而無需進行加密。
 
