@@ -118,9 +118,18 @@
 \DeclareMathOperator{\K}{\mathcal{K}}
 \DeclareMathOperator{\M}{\mathcal{M}}
 \DeclareMathOperator{\C}{\mathcal{C}}
-\DeclareMathOperator{\negl}{negl}   % for quiz in L4
+\DeclareMathOperator{\negl}{negl}
+\DeclareMathOperator{\Func}{\mathrm{Func}}
+\DeclareMathOperator{\Mac}{\mathrm{Mac}}
+\DeclareMathOperator{\Vrfy}{\mathrm{Vrfy}}
 % Since \DeclareMathOperator cannot accept arguments, so I use \newcommand instead.
 \newcommand{\letter}[1]{\text{\textquotesingle{}{#1}\textquotesingle}}
+% for using \widetilde in align* environment
+\usepackage{mathtools}
+\usepackage{mathabx}
+\newsavebox{\accentbox}
+\newcommand{\compositeaccents}[2]{%
+  \sbox\accentbox{$#2$}#1{\usebox\accentbox}}
 
 % Define theorem for math
 \newtheoremstyle{break}
