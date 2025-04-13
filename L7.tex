@@ -76,7 +76,7 @@ Ans: (2)
 \subparagraph{基本原理}
 
 \begin{center}
-	\includegraphics[width=\textwidth, keepaspectratio]{padding_oracle_attack_basics.jpg}
+	\includegraphics[width=0.2\textwidth, keepaspectratio]{padding_oracle_attack_basics.jpg}
 \end{center}
 
 其中 encoded data = \(F_k^{-1}(c) \oplus IV\)
@@ -116,9 +116,10 @@ Attacker 會先由左至右逐個修改 byte，並在每次修改完之後都詢
 \end{myItemize}
 
 
-\subsection{Message Authentication Code}
+\subsection{Message Authentication Code (MAC)}
 
-Secrecy：由 \(\Enc\) 提供、adversary 無法知道訊息內容、不能涵蓋所有的 concerns（例如：訊息篡改）
+
+Secrecy：\parbox{\linewidth}{由 \(\Enc\) 提供、adversary 無法知道訊息內容、不能涵蓋所有的 concerns（例如：訊息篡改）} \\
 Integrity：確保訊息不被篡改 (tampering)、驗證訊息的正確性
 
 MAC = Message Authentication Code
@@ -133,23 +134,73 @@ Alice 傳 message \(m\) 及一個可以驗證 message 的 tag \(t\) 給 Bob，�
 \begin{myItemize}
 	\item Key generation \(\Gen(1^n) \rightarrow k\): a key
 	\item Message authentication code \(\Mac(k, m) \rightarrow t\): a tag
-	\item Verification \(\Vrfy(k, m, t) \coloneq 0 \text{ or } 1\), where 0 stands for reject, 1 stands for accept.
+	\item Verification \(\Vrfy(k, m, t) \coloneq 0 \text{ or } 1\), where 0 stands for rejection, 1 stands for acceptance.
 \end{myItemize}
 
 \subparagraph{Remark}
 \begin{itemize}
 	\item \(m\) is not hidden for \(\Vrfy\).
-	\item 對於一個 deterministic MAC，\(\Vrfy\) 在做的事情就是重新建立一次 \(t\)，並比較是否與接收到的 \(t\) 相同。
-	\item If \(m \in \{0, 1\}^{l(n)}\), then MAC is fixed-length (\(l(n) is a polynomial\)).
+	\item 對於一個 deterministic MAC，\(\Vrfy\) 在做的事情就是重新建立一次 \(t\)，並比較其是否與接收到的 \(t\) 相同。
+	\item If \(m \in \{0, 1\}^{l(n)}\) where \(l(n)\) is a polynomial, then MAC is fixed-length MAC.
 \end{itemize}
 
-\includegraphics[width=0.8\textwidth, keepaspectratio]{todo1.jpg} \\[0.25cm]
-\includegraphics[width=0.8\textwidth, keepaspectratio]{todo2.jpg} \\[0.25cm]
-\includegraphics[width=0.8\textwidth, keepaspectratio]{todo3.jpg} \\[0.25cm]
-\includegraphics[width=0.8\textwidth, keepaspectratio]{todo4.jpg} \\[0.25cm]
-\includegraphics[width=0.8\textwidth, keepaspectratio]{todo5.jpg}
+
+\paragraph{Experiment \quad \(\displaystyle \MacForge_{A, \Pi}(n)\)}
+
+\includegraphics[width=0.8\textwidth, keepaspectratio]{MacForge_scenario.jpg}
+
+有 challenger \(C\) 和 adversary \(A\)：
+\begin{steps}
+	\item \(C\) 產生 key，即 \(k \leftarrow \Gen(1^n)\)
+	\item \(A\) 選擇一個 message \(m_i\)，以此詢問 \(C\)，而 \(C\) 再 return 一個計算過後的 tag \(t_i \leftarrow \Mac(k, m_i)\) 給 \(A\)。此外，\(C\) 可以使用一個 list \(Q\) 來收集所有來自 \(A\) 的 queries。
+	\item \(A\) outputs 他的偽造 \((m^\ast, t^\ast)\)
+\end{steps}
+
+\(A\) 成功的條件（即 \(\MacForge_{A, \Pi}(n) = 1\)）有兩個（都要符合，if and only if）：
+\begin{enumerate}[topsep=-\parskip, label=(\arabic*)]
+	\item \(\Vrfy(k, m^\ast, t^\ast) = 1\)
+	\item \(m^\ast \not\in Q\)
+\end{enumerate}
+
+\subparagraph{Remark}
+
+\(\MacForge\) 的 strong 版本是\(\MacSForge\)。 \\
+\(\MacSForge\)：比 \(\MacForge\) 寬鬆一點，只要求 \((m^\ast, t^\ast)\) 也不在 \(Q\) 中，即 \((m^\ast, t^\ast) \not\in Q\)。
+
+If a deterministic MAC satisfies existential unforgeability in \(\MacForge\), it also satisifeis strong unforgeability in \(\MacSForge\). \\
+解釋：因為 deterministic MAC 會將一個 \(m\) 只對應到一個 \(t\)，所以如果 \(m^\ast\) 不在 \(Q\) 中，則與之對應的 \(t^\ast\) 也不會在 \(Q\) 中。因此 \((m^\ast, t^\ast) \not\in Q\)。
 
 
+\paragraph{Strong Verison of Previous Experiment \quad \(\MacSForge_{A, \Pi}(n)\)}
+
+大致和之前相同，唯一不同處在於 \(A\) 成功的第二個條件改成 \((m^\ast, t^\ast) \not\in Q\)。這意味著 \(A\) 可以向 \(C\) query \(m^\ast\)，但只要可以偽造另一組不在 \(Q\) 中的 \((m^\ast, t^\ast)\) 並且仍可以使用它通過 \(\Vrfy\)，那麼就算 \(A\) 成功了。
+
+只要在 \(\MacSForge\) 是安全的，那它在 \(\MacForge\) 也是安全的。反之則不成立。
+\begin{definition}[Strong Security]
+	\[ \Pr[\MacSForge_{A, \Pi}(n) = 1] \leq \negl(n) \]
+\end{definition}
 
 
+\paragraph{Security Definition of MAC}
 
+\begin{definition}
+	A message authentication code \(\Pi = (\Gen, \Enc, \Vrfy)\) is existentially unforgeable under adaptive chosen message attacks, if for all PPT adversaries \(A\) there is a ngeligible function \(\negl\) such that
+	\[ \Pr[\MacForge_{A, \Pi}(n) = 1] \leq \negl(n) \]
+\end{definition}
+
+
+\paragraph{Construction}
+
+\subparagraph{Pseudorandom Function}
+
+Pseudorandom function (PRF) 的定義請參見 \fullref{PRF}。
+
+\subparagraph{Construction of Fixed-length MAC}
+
+Let \(F: \{0, 1\}^n \times \{0, 1\}^n \rightarrow \{0, 1\}^n\) be a PRF. \\
+\(\Pi = (\Gen, \Mac, \Vrfy)\) is a fixed-length MAC for message fo length n.
+\begin{myItemize}
+	\item \(\Gen(1^n)\)： uniform \(k \in {0, 1}^n\)
+	\item \(\Mac(k, m)\): on input \(k\) and message \(m \in \{0, 1\}^n\), outputs a tag \(t = F_k(m)\) where \(t\) is \(t\)-bit tag.
+	\item \(\Vrfy(k, m, t)\): on input \(k, m, t\), outputs 1 if and only if \(t = F_k(m)\); otherwise, outputs 0.
+\end{myItemize}

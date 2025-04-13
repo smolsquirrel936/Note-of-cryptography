@@ -4,7 +4,7 @@
 \subsection{CPA-secure Encryption}
 
 
-\paragraph{Pseudorandom Function (PRF)}
+\paragraph{Pseudorandom Function (PRF)} \phantomsection \label{PRF}
 
 Let \(F: \{0, 1\}^n \times \{0, 1\}^n \rightarrow \{0, 1\}^n\) be an efficient length-perserving keyed function. \\
 F is a pseudorandom function (PRF) if all PPT distinguisher \(D\), there is a negligible function such that
@@ -25,7 +25,7 @@ Ans: \\
 The domain \(\{0, 1\}^n\) has \(2^n\) elements, and the codomains \(\{0, 1\}^n\) also has \(2^n\) elements. \\
 For each of the \(2^n\) inputs, a function can assign any of \(2^n\) outputs. \\
 So the number of such functions is
-\[(2^n)^{2^n} = 2^{2 \cdot 2^n}.\]
+\[(2^n)^{2^n} = 2^{n \cdot 2^n}.\]
 
 
 \paragraph{PRF-based Construction}
