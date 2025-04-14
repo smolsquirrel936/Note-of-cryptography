@@ -200,7 +200,7 @@ Pseudorandom function (PRF) 的定義請參見 \fullref{PRF}。
 Let \(F: \{0, 1\}^n \times \{0, 1\}^n \rightarrow \{0, 1\}^n\) be a PRF. \\
 \(\Pi = (\Gen, \Mac, \Vrfy)\) is a fixed-length MAC for message fo length n.
 \begin{myItemize}
-	\item \(\Gen(1^n)\)： uniform \(k \in {0, 1}^n\)
+	\item \(\Gen(1^n)\)： uniform \(k \in \{0, 1\}^n\)
 	\item \(\Mac(k, m)\): on input \(k\) and message \(m \in \{0, 1\}^n\), outputs a tag \(t = F_k(m)\) where \(t\) is \(t\)-bit tag.
-	\item \(\Vrfy(k, m, t)\): on input \(k, m, t\), outputs 1 if and only if \(t = F_k(m)\); otherwise, outputs 0.
+	\item \(\Vrfy(k, m, t)\): on input \((k, m, t)\), outputs 1 if and only if \(t = F_k(m)\); otherwise, outputs 0.
 \end{myItemize}
