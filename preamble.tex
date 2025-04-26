@@ -110,6 +110,25 @@
 \usepackage{amssymb}
 \usepackage{cancel}             % add cancel line for math
 
+% Code for redefining \DeclareMathOperator
+\makeatletter
+\newcommand\RedeclareMathOperator{%
+  \@ifstar{\def\rmo@s{m}\rmo@redeclare}{\def\rmo@s{o}\rmo@redeclare}%
+}
+% this is taken from \renew@command
+\newcommand\rmo@redeclare[2]{%
+  \begingroup \escapechar\m@ne\xdef\@gtempa{{\string#1}}\endgroup
+  \expandafter\@ifundefined\@gtempa
+     {\@latex@error{\noexpand#1undefined}\@ehc}%
+     \relax
+  \expandafter\rmo@declmathop\rmo@s{#1}{#2}}
+% This is just \@declmathop without \@ifdefinable
+\newcommand\rmo@declmathop[3]{%
+  \DeclareRobustCommand{#2}{\qopname\newmcodes@#1{#3}}%
+}
+\@onlypreamble\RedeclareMathOperator
+\makeatother
+
 % Define some commonly used mathematical symbols
 \DeclareMathOperator{\Gen}{Gen}
 \DeclareMathOperator{\Dec}{Dec}
@@ -124,6 +143,9 @@
 \DeclareMathOperator{\Vrfy}{\mathrm{Vrfy}}
 \DeclareMathOperator{\MacForge}{\mathrm{MAC-Forge}}
 \DeclareMathOperator{\MacSForge}{\mathrm{MAC-sForge}}
+\DeclareMathOperator{\HashColl}{\mathrm{Hash-coll}}
+\DeclareMathOperator{\h}{\mathrm{h}}
+\RedeclareMathOperator{\H}{\mathrm{H}}
 % Since \DeclareMathOperator cannot accept arguments, so I use \newcommand instead.
 \newcommand{\letter}[1]{\text{\textquotesingle{}{#1}\textquotesingle}}
 % for using \widetilde in align* environment
@@ -132,6 +154,10 @@
 \newsavebox{\accentbox}
 \newcommand{\compositeaccents}[2]{%
   \sbox\accentbox{$#2$}#1{\usebox\accentbox}}
+ 
+ % define ceil and floor symbols
+ \DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+ \DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
 
 % Define theorem for math
 \newtheoremstyle{break}
@@ -211,4 +237,4 @@
 	\end{tabularx}
 }
 
-
+\usepackage{ifdraft}

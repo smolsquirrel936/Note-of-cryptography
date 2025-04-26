@@ -5,22 +5,23 @@
 
 \input{preamble}
 
-\includeonly{L7, L8}
+\includeonly{L9}
 
 
 \begin{document}
+
 	\pagenumbering{gobble}
-	\maketitle
-	\clearpage
+	\iffalse
+		\maketitle
+		\clearpage
+		
+		\section*{Preface}
+		
+		\subsection*{Course}
+		密碼學設計與分析Cryptography Design and Analysis (11320IIS500900) in NTHU
 	
-	\section*{Preface}
-	
-	\subsection*{Course}
-	密碼學設計與分析Cryptography Design and Analysis (11320IIS500900) in NTHU
-	
-	
-	
-	\clearpage
+		\clearpage
+	\fi
 
 	\include{L1}
 	\include{L2}
@@ -30,6 +31,7 @@
 	\include{L6}
 	\include{L7}
 	\include{L8}
+	\include{L9}
 	
 	
 \end{document}
